@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A free interactive worksheet from Wandering Wellness for reflecting on the year so far, setting fall priorities, and spotting what's filling or draining your cup.">
+<title>The Fall Self-Audit | Wandering Wellness</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+  :root{
+    --cream:      #F6EFE1;
+    --paper:      #FDFAF2;
+    --line:       #E4D8BE;
+    --ink:        #4A3324;
+    --ink-soft:   #8A7660;
+    --rust:       #B4502F;
+    --rust-deep:  #8C3B22;
+    --gold:       #C79A46;
+    --sage:       #74814F;
+    --shadow:     rgba(74,51,36,0.10);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ text-size-adjust:100%; }
+
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Lora',Georgia,'Times New Roman',serif;
+    padding:0 20px;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(74,51,36,0.05) 1px, transparent 0);
+    background-size: 3px 3px;
+  }
+
+  .page{
+    max-width:760px;
+    margin:0 auto;
+    padding-block:56px 80px;
+  }
+
+  /* ---------- header ---------- */
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:28px;
+  }
+  .brand svg{ width:22px; height:22px; flex:none; }
+  .brand span{
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  h1.title{
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    color:var(--rust);
+    font-size:clamp(34px,6vw,52px);
+    line-height:1.05;
+    text-align:center;
+    text-wrap:balance;
+    margin:0 0 14px;
+  }
+
+  .epigraph{
+    text-align:center;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:420px;
+    margin:0 auto 22px;
+    line-height:1.6;
+  }
+
+  .intro{
+    text-align:center;
+    max-width:540px;
+    margin:0 auto 40px;
+    font-size:16px;
+    line-height:1.75;
+    color:var(--ink);
+  }
+
+  /* ---------- progress ---------- */
+
+  .progress{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-bottom:56px;
+  }
+  .progress-step{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    width:120px;
+  }
+  .progress-dot{
+    width:100%;
+    height:5px;
+    border-radius:3px;
+    background:var(--line);
+    transition:background 0.4s ease;
+  }
+  .progress-dot.filled{ background:var(--rust); }
+  .progress-label{
+    font-family:'Fredoka',sans-serif;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  /* ---------- sections ---------- */
+
+  section.part{
+    margin-bottom:64px;
+  }
+
+  .part-head{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    border-bottom:2px solid var(--rust);
+    padding-bottom:14px;
+    margin-bottom:20px;
+  }
+  .part-num{
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--paper);
+    background:var(--rust);
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:none;
+  }
+  .part-num.bonus{ background:var(--sage); }
+  .part-title{
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:24px;
+    color:var(--ink);
+    margin:0;
+  }
+  .part-frame{
+    color:var(--ink-soft);
+    font-style:italic;
+    font-size:15px;
+    margin:0 0 30px;
+    max-width:56ch;
+  }
+
+  .prompt{ margin-bottom:34px; }
+  .prompt:last-child{ margin-bottom:0; }
+
+  .prompt-label{
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    color:var(--rust-deep);
+    margin:0 0 6px;
+  }
+  .prompt-text{
+    font-size:15px;
+    line-height:1.65;
+    color:var(--ink);
+    margin:0 0 14px;
+    max-width:60ch;
+  }
+
+  textarea, input[type="text"], input[type="date"]{
+    width:100%;
+    font-family:'Lora',Georgia,serif;
+    font-size:15.5px;
+    line-height:1.8;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    resize:none;
+    overflow:hidden;
+    box-shadow:inset 0 1px 3px var(--shadow);
+    transition:border-color 0.2s ease;
+  }
+  textarea{ min-height:64px; }
+  textarea::placeholder, input::placeholder{ color:#B4A78E; font-style:italic; }
+  textarea:focus, input:focus{
+    outline:none;
+    border-color:var(--rust);
+  }
+
+  input[type="date"]{
+    max-width:220px;
+    font-family:'Lora',Georgia,serif;
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:520px){
+    .two-col{ grid-template-columns:1fr; }
+  }
+
+  .mini-field label{
+    display:block;
+    font-family:'Fredoka',sans-serif;
+    font-size:12.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+
+  .cup-block.fills .prompt-label{ color:var(--sage); }
+  .cup-block.fills textarea:focus{ border-color:var(--sage); }
+  .cup-block.drains .prompt-label{ color:var(--rust-deep); }
+
+  /* ---------- wheel of life (1-5 rating) ---------- */
+
+  .wheel-grid{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-bottom:14px;
+  }
+  .wheel-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .wheel-label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--ink);
+    flex:1 1 150px;
+  }
+  .wheel-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    flex:none;
+  }
+  .wheel-scale{
+    display:flex;
+    gap:8px;
+    flex:0 0 auto;
+  }
+  .wheel-btn{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    background:var(--paper);
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .wheel-btn:hover{ border-color:var(--rust); color:var(--rust-deep); }
+  .wheel-btn.selected{ background:var(--rust); border-color:var(--rust); color:var(--paper); }
+  .wheel-btn:focus-visible{ outline:2px solid var(--rust-deep); outline-offset:2px; }
+
+  .wheel-legend{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    font-style:italic;
+    color:var(--ink-soft);
+    max-width:400px;
+    margin:0 0 26px;
+  }
+
+  /* ---------- one word ---------- */
+
+  .word-break{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:36px 20px 40px;
+    margin:0 0 40px;
+    border-top:1px dashed var(--line);
+    border-bottom:1px dashed var(--line);
+  }
+  .word-break .prompt-label{ color:var(--rust-deep); }
+  .word-break .prompt-text{ text-align:center; margin-inline:auto; }
+  .word-stamp{
+    width:172px;
+    height:172px;
+    border-radius:50%;
+    border:2.5px solid var(--rust);
+    background:var(--paper);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:inset 0 1px 4px var(--shadow);
+  }
+  .word-stamp input{
+    width:132px;
+    text-align:center;
+    border:none;
+    background:transparent;
+    box-shadow:none;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:22px;
+    color:var(--rust-deep);
+    padding:0;
+    text-transform:lowercase;
+  }
+  .word-stamp input:focus{ outline:none; }
+
+  /* ---------- list builder (rituals / food) ---------- */
+
+  .list-builder{}
+  .list-input-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .list-input-row input{ flex:1; }
+  .list-add{
+    flex:none;
+    padding:0 20px;
+    font-size:13.5px;
+  }
+  .chip-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    min-height:14px;
+  }
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:7px 10px 7px 14px;
+    font-size:13.5px;
+    color:var(--ink);
+    line-height:1.2;
+  }
+  .chip-remove{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:15px;
+    line-height:1;
+    padding:2px 3px;
+  }
+  .chip-remove:hover{ color:var(--rust-deep); }
+
+  /* ---------- anchor / closing ---------- */
+
+  .anchor{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:36px 32px;
+    box-shadow:0 6px 18px var(--shadow);
+  }
+  .anchor .part-head{ border-color:var(--gold); }
+  .anchor .part-num{ background:var(--gold); }
+  .anchor-sentence{
+    font-family:'Fredoka',sans-serif;
+    font-size:20px;
+    font-weight:500;
+    color:var(--ink);
+    line-height:1.5;
+    margin:0 0 26px;
+  }
+  .anchor-sentence #wordEcho{
+    color:var(--rust);
+    font-weight:600;
+    border-bottom:2px solid var(--gold);
+    padding-bottom:1px;
+  }
+
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:36px;
+    justify-content:center;
+  }
+  button{
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.02em;
+    border-radius:999px;
+    padding:12px 26px;
+    cursor:pointer;
+    border:1.5px solid var(--rust);
+    background:var(--rust);
+    color:var(--paper);
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  button:hover{ background:var(--rust-deep); border-color:var(--rust-deep); }
+  button:active{ transform:scale(0.97); }
+  button.ghost{
+    background:transparent;
+    color:var(--rust-deep);
+  }
+  button.ghost:hover{ background:rgba(180,80,47,0.08); }
+  button:focus-visible{ outline:2px solid var(--rust-deep); outline-offset:2px; }
+
+  .confirm-clear{
+    text-align:center;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:14px;
+  }
+  .confirm-clear button{
+    padding:6px 16px;
+    font-size:12.5px;
+    margin:0 4px;
+  }
+  .confirm-clear[hidden]{ display:none; }
+
+  .status{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:18px;
+    min-height:16px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:60px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  footer .brand{ margin-bottom:10px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+
+  @media print{
+    body{ background:#fff; padding:0; }
+    .progress, .actions, .confirm-clear, .status, .list-input-row, .list-add{ display:none !important; }
+    .page{ padding:0; max-width:100%; }
+    textarea, input{ box-shadow:none; border:1px solid #ccc; }
+    .anchor{ box-shadow:none; }
+    section.part{ break-inside:avoid; }
+    .chip-remove{ display:none; }
+    .wheel-btn{ border:1px solid #ccc; }
+    .wheel-btn.selected{ background:#B4502F !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="brand">
+    <svg viewBox="0 0 40 40" aria-hidden="true">
+      <g fill="var(--rust)">
+        <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(0 20 20)"/>
+        <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(60 20 20)"/>
+        <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(120 20 20)"/>
+        <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(180 20 20)"/>
+        <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(240 20 20)"/>
+        <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(300 20 20)"/>
+      </g>
+      <circle cx="20" cy="20" r="4.5" fill="var(--gold)"/>
+    </svg>
+    <span>Wandering Wellness</span>
+  </div>
+
+  <h1 class="title">The Fall Self-Audit</h1>
+  <p class="epigraph">"This isn't about starting over — it's about paying attention."</p>
+  <p class="intro">Before the pace of fall picks up, take twenty quiet minutes with this. Answer honestly, don't skip the ones that sting, and let your own answers — not the calendar — decide what this season is for. Everything you type is saved automatically, only on this device.</p>
+
+  <div class="progress" id="progress">
+    <div class="progress-step"><div class="progress-dot" data-part="1"></div><div class="progress-label">Take Stock</div></div>
+    <div class="progress-step"><div class="progress-dot" data-part="2"></div><div class="progress-label">Set Direction</div></div>
+    <div class="progress-step"><div class="progress-dot" data-part="3"></div><div class="progress-label">Find Friction</div></div>
+  </div>
+
+  <!-- ================= PART 1 ================= -->
+  <section class="part" data-part="1">
+    <div class="part-head">
+      <div class="part-num">01</div>
+      <h2 class="part-title">Take Stock</h2>
+    </div>
+    <p class="part-frame">Before you decide where to go, tell the truth about where you actually are.</p>
+
+    <div class="prompt">
+      <p class="prompt-label">Your wheel of life</p>
+      <p class="prompt-text">Rate each area from 1 to 5 — how close is it to where you actually want it to be right now?</p>
+      <div class="wheel-grid">
+        <div class="wheel-row" data-wheel="health">
+          <span class="wheel-label"><span class="wheel-dot" style="background:var(--sage)"></span>Health</span>
+          <div class="wheel-scale" role="radiogroup" aria-label="Health, rated 1 to 5">
+            <button type="button" class="wheel-btn" data-value="1" aria-pressed="false">1</button>
+            <button type="button" class="wheel-btn" data-value="2" aria-pressed="false">2</button>
+            <button type="button" class="wheel-btn" data-value="3" aria-pressed="false">3</button>
+            <button type="button" class="wheel-btn" data-value="4" aria-pressed="false">4</button>
+            <button type="button" class="wheel-btn" data-value="5" aria-pressed="false">5</button>
+          </div>
+        </div>
+        <div class="wheel-row" data-wheel="relationships">
+          <span class="wheel-label"><span class="wheel-dot" style="background:var(--gold)"></span>Relationships</span>
+          <div class="wheel-scale" role="radiogroup" aria-label="Relationships, rated 1 to 5">
+            <button type="button" class="wheel-btn" data-value="1" aria-pressed="false">1</button>
+            <button type="button" class="wheel-btn" data-value="2" aria-pressed="false">2</button>
+            <button type="button" class="wheel-btn" data-value="3" aria-pressed="false">3</button>
+            <button type="button" class="wheel-btn" data-value="4" aria-pressed="false">4</button>
+            <button type="button" class="wheel-btn" data-value="5" aria-pressed="false">5</button>
+          </div>
+        </div>
+        <div class="wheel-row" data-wheel="work">
+          <span class="wheel-label"><span class="wheel-dot" style="background:var(--rust)"></span>Work &amp; Purpose</span>
+          <div class="wheel-scale" role="radiogroup" aria-label="Work and Purpose, rated 1 to 5">
+            <button type="button" class="wheel-btn" data-value="1" aria-pressed="false">1</button>
+            <button type="button" class="wheel-btn" data-value="2" aria-pressed="false">2</button>
+            <button type="button" class="wheel-btn" data-value="3" aria-pressed="false">3</button>
+            <button type="button" class="wheel-btn" data-value="4" aria-pressed="false">4</button>
+            <button type="button" class="wheel-btn" data-value="5" aria-pressed="false">5</button>
+          </div>
+        </div>
+        <div class="wheel-row" data-wheel="money">
+          <span class="wheel-label"><span class="wheel-dot" style="background:var(--ink-soft)"></span>Money</span>
+          <div class="wheel-scale" role="radiogroup" aria-label="Money, rated 1 to 5">
+            <button type="button" class="wheel-btn" data-value="1" aria-pressed="false">1</button>
+            <button type="button" class="wheel-btn" data-value="2" aria-pressed="false">2</button>
+            <button type="button" class="wheel-btn" data-value="3" aria-pressed="false">3</button>
+            <button type="button" class="wheel-btn" data-value="4" aria-pressed="false">4</button>
+            <button type="button" class="wheel-btn" data-value="5" aria-pressed="false">5</button>
+          </div>
+        </div>
+        <div class="wheel-row" data-wheel="growth">
+          <span class="wheel-label"><span class="wheel-dot" style="background:var(--rust-deep)"></span>Personal Growth</span>
+          <div class="wheel-scale" role="radiogroup" aria-label="Personal Growth, rated 1 to 5">
+            <button type="button" class="wheel-btn" data-value="1" aria-pressed="false">1</button>
+            <button type="button" class="wheel-btn" data-value="2" aria-pressed="false">2</button>
+            <button type="button" class="wheel-btn" data-value="3" aria-pressed="false">3</button>
+            <button type="button" class="wheel-btn" data-value="4" aria-pressed="false">4</button>
+            <button type="button" class="wheel-btn" data-value="5" aria-pressed="false">5</button>
+          </div>
+        </div>
+      </div>
+      <div class="wheel-legend"><span>1 · needs real attention</span><span>5 · thriving</span></div>
+    </div>
+
+    <div class="prompt">
+      <p class="prompt-label">Your year so far</p>
+      <p class="prompt-text">Scroll back through the months since January. What actually happened — the plans, the pivots, the things you didn't see coming? Looking at it honestly, where is this year currently leading you?</p>
+      <textarea id="q2" data-field="q2" placeholder="Not the highlight reel — the real shape of the year."></textarea>
+    </div>
+  </section>
+
+  <!-- ================= PART 2 ================= -->
+  <section class="part" data-part="2">
+    <div class="part-head">
+      <div class="part-num">02</div>
+      <h2 class="part-title">Set the Direction</h2>
+    </div>
+    <p class="part-frame">Now turn toward what's ahead. Fall rewards a short list, not a long one.</p>
+
+    <div class="prompt">
+      <p class="prompt-label">Your top priorities</p>
+      <p class="prompt-text">If you could only make real progress on two or three things this season, what would they be? What deserves your focus, and what can honestly wait?</p>
+      <textarea id="q3" data-field="q3" placeholder="Name the two or three things worth your real attention."></textarea>
+    </div>
+
+    <div class="word-break">
+      <p class="prompt-label">One word for the season</p>
+      <p class="prompt-text">If this fall went exactly the way you needed it to, how would it feel? Not a goal — a feeling. Find the one word.</p>
+      <div class="word-stamp">
+        <input type="text" id="q4word" data-field="q4word" maxlength="24" placeholder="grounded" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="prompt">
+      <p class="prompt-label">Mornings &amp; evenings</p>
+      <p class="prompt-text">The edges of your day set the tone for the middle. How do you want your mornings to feel? Your evenings?</p>
+      <div class="two-col">
+        <div class="mini-field">
+          <label for="q5morning">Mornings</label>
+          <input type="text" id="q5morning" data-field="q5morning" placeholder="unhurried, clear-headed...">
+        </div>
+        <div class="mini-field">
+          <label for="q5evening">Evenings</label>
+          <input type="text" id="q5evening" data-field="q5evening" placeholder="settled, connected...">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PART 3 ================= -->
+  <section class="part" data-part="3">
+    <div class="part-head">
+      <div class="part-num">03</div>
+      <h2 class="part-title">Find the Friction</h2>
+    </div>
+    <p class="part-frame">The life you want is often hiding behind small frictions you've stopped noticing.</p>
+
+    <div class="prompt">
+      <p class="prompt-label">Where your routine fights you</p>
+      <p class="prompt-text">What parts of your current routine take more effort than they should — the thing you dread, delay, or keep doing the hard way out of habit?</p>
+      <textarea id="q6" data-field="q6" placeholder="The friction points, named plainly."></textarea>
+    </div>
+
+    <div class="prompt">
+      <p class="prompt-label">What fills your cup, what drains it</p>
+      <p class="prompt-text">Look at a typical week. Which parts genuinely restore you? Which ones leave you running on empty, even if they're "supposed" to be fine?</p>
+      <div class="two-col">
+        <div class="cup-block fills">
+          <p class="prompt-label">Fills my cup</p>
+          <textarea id="q7fills" data-field="q7fills" placeholder="What actually gives you energy..."></textarea>
+        </div>
+        <div class="cup-block drains">
+          <p class="prompt-label">Drains me</p>
+          <textarea id="q7drains" data-field="q7drains" placeholder="What quietly costs you..."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BONUS ================= -->
+  <section class="part" data-part="bonus">
+    <div class="part-head">
+      <div class="part-num bonus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="15" height="15">
+          <path d="M12 3C7 4 4 9 4.5 13.5 5 18 8.5 21 13 20.5c4-.5 6.7-4.3 6.4-8.6C19.1 7.6 16.3 3.7 12 3z" fill="none" stroke="var(--paper)" stroke-width="1.6"/>
+          <path d="M12.5 5.5C10.5 10 10.5 15 13.5 19" fill="none" stroke="var(--paper)" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <h2 class="part-title">Savor the Season</h2>
+    </div>
+    <p class="part-frame">Not everything about fall needs fixing — some of it just needs savoring.</p>
+
+    <div class="two-col">
+      <div class="list-builder" data-key="rituals">
+        <p class="prompt-label">Fall rituals I want to bring back or start</p>
+        <p class="prompt-text">Little anchors that make the season feel like itself.</p>
+        <div class="list-input-row">
+          <input type="text" class="list-input" placeholder="a Sunday walk, cider on the porch...">
+          <button type="button" class="list-add">Add</button>
+        </div>
+        <div class="chip-list"></div>
+      </div>
+
+      <div class="list-builder" data-key="foods">
+        <p class="prompt-label">Foods &amp; recipes I'm excited to dive into</p>
+        <p class="prompt-text">The flavors that make fall taste like fall.</p>
+        <div class="list-input-row">
+          <input type="text" class="list-input" placeholder="butternut squash soup, apple crisp...">
+          <button type="button" class="list-add">Add</button>
+        </div>
+        <div class="chip-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ANCHOR ================= -->
+  <section class="anchor">
+    <div class="part-head">
+      <div class="part-num">✓</div>
+      <h2 class="part-title">Your Fall Anchor</h2>
+    </div>
+    <p class="anchor-sentence">This fall, I am choosing to feel <span id="wordEcho">___</span>.</p>
+    <div class="prompt" style="margin-bottom:0;">
+      <p class="prompt-label">One thing I'll do differently this week to move toward that</p>
+      <textarea id="q8" data-field="q8" placeholder="Small and doable beats big and vague."></textarea>
+    </div>
+
+    <div class="prompt" style="margin-top:28px; margin-bottom:0;">
+      <p class="prompt-label">I'll revisit this on</p>
+      <p class="prompt-text">Pick a date that already means something this season — Halloween, Thanksgiving, the end of the month — and put it on your calendar now.</p>
+      <input type="date" id="revisitDate" data-field="revisitDate">
+    </div>
+
+    <div class="actions">
+      <button type="button" id="printBtn">Print / save as PDF</button>
+      <button type="button" class="ghost" id="clearBtn">Clear my answers</button>
+    </div>
+    <div class="confirm-clear" id="confirmClear" hidden>
+      Clear everything you've written? This can't be undone.
+      <button type="button" id="confirmYes">Yes, clear it</button>
+      <button type="button" class="ghost" id="confirmNo">Cancel</button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+  </section>
+
+  <footer>
+    <div class="brand" style="justify-content:center;">
+      <svg viewBox="0 0 40 40" width="16" height="16" aria-hidden="true">
+        <g fill="var(--rust)">
+          <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(0 20 20)"/>
+          <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(60 20 20)"/>
+          <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(120 20 20)"/>
+          <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(180 20 20)"/>
+          <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(240 20 20)"/>
+          <ellipse cx="20" cy="9"  rx="4.5" ry="8" transform="rotate(300 20 20)"/>
+        </g>
+        <circle cx="20" cy="20" r="4.5" fill="var(--gold)"/>
+      </svg>
+      <span>Wandering Wellness</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'wanderingWellness.fallSelfAudit.v3';
+  var PREV_KEYS = ['wanderingWellness.fallSelfAudit.v2','wanderingWellness.fallSelfAudit.v1'];
+  var fields = ['q2','q3','q6','q7fills','q7drains','q4word','q5morning','q5evening','q8','revisitDate'];
+  var wheelKeys = ['health','relationships','work','money','growth'];
+  var data = {};
+
+  function safeLoad(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) return JSON.parse(raw);
+      for(var i=0;i<PREV_KEYS.length;i++){
+        var old = localStorage.getItem(PREV_KEYS[i]);
+        if(old) return JSON.parse(old);
+      }
+      return {};
+    }catch(e){ return {}; }
+  }
+  function safeSave(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); return true; }
+    catch(e){ return false; }
+  }
+
+  data = safeLoad();
+
+  function autoGrow(el){
+    el.style.height = 'auto';
+    el.style.height = (el.scrollHeight + 2) + 'px';
+  }
+
+  function updateWordEcho(){
+    var w = (data.q4word || '').trim();
+    document.getElementById('wordEcho').textContent = w ? w : '___';
+  }
+
+  function updateProgress(){
+    var groups = {
+      1:['q2'].concat(wheelKeys.map(function(k){ return 'wheel_'+k; })),
+      2:['q3','q4word','q5morning','q5evening'],
+      3:['q6','q7fills','q7drains']
+    };
+    Object.keys(groups).forEach(function(part){
+      var filled = groups[part].some(function(f){ return (data[f]||'').toString().trim().length > 0; });
+      var dot = document.querySelector('.progress-dot[data-part="'+part+'"]');
+      if(dot) dot.classList.toggle('filled', filled);
+    });
+  }
+
+  var statusEl = document.getElementById('status');
+  var statusTimer = null;
+  function flashStatus(msg){
+    statusEl.textContent = msg;
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(function(){ statusEl.textContent = ''; }, 2200);
+  }
+
+  fields.forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(data[id]) el.value = data[id];
+    if(el.tagName === 'TEXTAREA') autoGrow(el);
+
+    el.addEventListener('input', function(){
+      data[id] = el.value;
+      if(el.tagName === 'TEXTAREA') autoGrow(el);
+      if(id === 'q4word') updateWordEcho();
+      updateProgress();
+      var ok = safeSave();
+      flashStatus(ok ? 'Saved on this device' : "Couldn't save — your answers will last for this visit only");
+    });
+  });
+
+  /* ---- wheel of life rating rows ---- */
+  document.querySelectorAll('.wheel-row').forEach(function(row){
+    var key = 'wheel_' + row.getAttribute('data-wheel');
+    var btns = row.querySelectorAll('.wheel-btn');
+    function applySelected(){
+      var val = data[key];
+      btns.forEach(function(b){
+        var isSel = !!val && b.getAttribute('data-value') === val;
+        b.classList.toggle('selected', isSel);
+        b.setAttribute('aria-pressed', isSel ? 'true' : 'false');
+      });
+    }
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){
+        data[key] = (data[key] === b.getAttribute('data-value')) ? '' : b.getAttribute('data-value');
+        applySelected();
+        updateProgress();
+        var ok = safeSave();
+        flashStatus(ok ? 'Saved on this device' : "Couldn't save — your answers will last for this visit only");
+      });
+    });
+    applySelected();
+  });
+
+  updateWordEcho();
+  updateProgress();
+
+  /* ---- list builders (rituals / foods) ---- */
+  document.querySelectorAll('.list-builder').forEach(function(builder){
+    var key = builder.getAttribute('data-key');
+    var listData = Array.isArray(data[key]) ? data[key] : [];
+    var input = builder.querySelector('.list-input');
+    var addBtn = builder.querySelector('.list-add');
+    var chipWrap = builder.querySelector('.chip-list');
+
+    function render(){
+      chipWrap.innerHTML = '';
+      listData.forEach(function(item, idx){
+        var chip = document.createElement('span');
+        chip.className = 'chip';
+        var txt = document.createElement('span');
+        txt.textContent = item;
+        var rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'chip-remove';
+        rm.setAttribute('aria-label', 'Remove ' + item);
+        rm.textContent = '×';
+        rm.addEventListener('click', function(){
+          listData.splice(idx, 1);
+          data[key] = listData;
+          safeSave();
+          render();
+          flashStatus('Saved on this device');
+        });
+        chip.appendChild(txt);
+        chip.appendChild(rm);
+        chipWrap.appendChild(chip);
+      });
+    }
+
+    function addItem(){
+      var val = input.value.trim();
+      if(!val) return;
+      listData.push(val);
+      data[key] = listData;
+      input.value = '';
+      safeSave();
+      render();
+      flashStatus('Saved on this device');
+    }
+
+    addBtn.addEventListener('click', addItem);
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); addItem(); }
+    });
+
+    render();
+  });
+
+  document.getElementById('printBtn').addEventListener('click', function(){
+    window.print();
+  });
+
+  var clearBtn = document.getElementById('clearBtn');
+  var confirmBox = document.getElementById('confirmClear');
+  clearBtn.addEventListener('click', function(){
+    confirmBox.hidden = false;
+  });
+  document.getElementById('confirmNo').addEventListener('click', function(){
+    confirmBox.hidden = true;
+  });
+  document.getElementById('confirmYes').addEventListener('click', function(){
+    fields.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el){ el.value = ''; if(el.tagName==='TEXTAREA') autoGrow(el); }
+    });
+    document.querySelectorAll('.wheel-btn.selected').forEach(function(b){
+      b.classList.remove('selected');
+      b.setAttribute('aria-pressed','false');
+    });
+    document.querySelectorAll('.chip-list').forEach(function(el){ el.innerHTML=''; });
+    data = {};
+    safeSave();
+    updateWordEcho();
+    updateProgress();
+    confirmBox.hidden = true;
+    flashStatus('Cleared');
+  });
+})();
+</script>
+</body>
+</html>
